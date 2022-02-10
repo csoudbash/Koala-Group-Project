@@ -5,33 +5,16 @@ console.log( 'js' );
 $( document ).ready( function(){
   console.log( 'JQ' );
   // Establish Click Listeners
-  setupClickListeners()
+  $( '#addButton' ).on('click', submitKoala);
   // load existing koalas on page load
   getKoalas();
 }); // end doc ready
 
-function setupClickListeners() {
-  $( '#addButton' ).on( 'click', function(){
-    console.log( 'in addButton on click' );
-    // get user input and put in an object
-    // NOT WORKING YET :(
-    // using a test object
-    let koalaToSend = {
-      name: 'testName',
-      age: 'testName',
-      gender: 'testName',
-      readyForTransfer: 'testName',
-      notes: 'testName',
-    };
-    // call saveKoala with the new obejct
-    saveKoala( koalaToSend );
-  }); 
-}
-
 // -- GLOBAL VARS ----------------------------------
 
 
-// for Clientside Testing
+// for Clientside Testing 
+// NOT FOR PRODUCTION
 let koalas = [
   {
     id: 1,
@@ -69,23 +52,30 @@ function getKoalas(){
 
 // -- POST -----------------------------------------
 
-function saveKoala( ){
-  console.log( 'in saveKoala' );
-  // ajax call to server to get koalas
-  let newKoala = {
+function submitKoala() {
+  console.log( 'in addButton on click' );
+
+  // declare koalaToSend from user
+  let koalaToSend = {
     name: $('#nameIn').val(),
     age: $('ageIn').val(),
     gender: $('#genderIn').val(),
     readyForTransfer: $('#readyForTransferIn').val(),
     notes: $('#notesIn').val(),
   }
+
+  // Post newKoala to Server
   $.ajax({
     type: 'POST',
-    url: '/koalas'
-    data: newKoala /////START HERE WHEN COMING BACK
-  })  
- 
-}
+    url: '/koalas',
+    data: koalaToSend,
+  }).then(function(res){
+    console.log('response from server!', response);
+  }).catch(function(error){
+    console.log('error in post', error);
+    alert('unable to add koala at this time.');
+  });
+} // end submitKoala
 
 // -- PUT ------------------------------------------
 
