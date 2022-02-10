@@ -6,13 +6,13 @@ CREATE TABLE "koalas" (
 	"readyForTransfer" BOOLEAN,
 	"notes" VARCHAR(255)
 );
-INSERT INTO "koalas" ("id", "name", "gender", "age", "readyForTransfer", "notes")
-VALUES ( 1 ,'Scotty', 'M' , '4' , TRUE ,  'Born in Guatemala'),               
-( 2 ,  'Jean'  ,   'F'    ,   '5'   , TRUE  ,'Allergic to lots of lava'),         
-( 3, 'Ororo' , 'F'   ,    '7' , FALSE  ,    'Loves listening to Paula (Abdul)'),
-(4,'Logan','M','15',FALSE,'Loves the sauna'),
-(5,'Charlie','M','9',TRUE,'Favorite band is Nirvana'),
-(6,'Betsy','F','4',FALSE,'Has a pet iguana');
+INSERT INTO "koalas" ( "name", "gender", "age", "readyForTransfer", "notes")
+VALUES ( 'Scotty', 'M' , '4' , TRUE ,  'Born in Guatemala'),               
+(  'Jean'  ,   'F'    ,   '5'   , TRUE  ,'Allergic to lots of lava'),         
+( 'Ororo' , 'F'   ,    '7' , FALSE  ,    'Loves listening to Paula (Abdul)'),
+('Logan','M','15',FALSE,'Loves the sauna'),
+('Charlie','M','9',TRUE,'Favorite band is Nirvana'),
+('Betsy','F','4',FALSE,'Has a pet iguana');
 
 
 

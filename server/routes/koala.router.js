@@ -18,9 +18,21 @@ koalaRouter.get('/', (req,res) => {
 });
 
 // POST
-// koalaRouter.post('/', (req,res) => {
-//     const newKoala = req.body;
-// })
+koalaRouter.post('/', (req,res) => {
+    const koala = req.body;
+    console.log(req.body);
+    const queryText = `
+    INSERT INTO "koalas" ("name", "gender", "age", "readyForTransfer", "notes")
+    VALUES ( $1, $2, $3, $4, $5);`;
+    // parameterized query prevents SQL injection
+    pool.query(queryText, [koala.name, koala.gender, koala.age, koala.readyForTransfer, koala.notes])
+        .then((result) => {
+            res.sendStatus(200);
+        }).catch((err) => {
+
+            res.sendStatus(500);
+        })
+})
 
 // PUT
 
