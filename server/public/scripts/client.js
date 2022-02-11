@@ -1,40 +1,103 @@
+// -- DOC READY ---------------------------------------
+
 console.log( 'js' );
 
 $( document ).ready( function(){
   console.log( 'JQ' );
   // Establish Click Listeners
-  setupClickListeners()
+  $( '#addButton' ).on('click', submitKoala);
   // load existing koalas on page load
   getKoalas();
-
 }); // end doc ready
 
-function setupClickListeners() {
-  $( '#addButton' ).on( 'click', function(){
-    console.log( 'in addButton on click' );
-    // get user input and put in an object
-    // NOT WORKING YET :(
-    // using a test object
-    let koalaToSend = {
-      name: 'testName',
-      age: 'testName',
-      gender: 'testName',
-      readyForTransfer: 'testName',
-      notes: 'testName',
-    };
-    // call saveKoala with the new obejct
-    saveKoala( koalaToSend );
-  }); 
-}
+// -- GLOBAL VARS ----------------------------------
+
+
+// for Clientside Testing 
+// NOT FOR PRODUCTION
+let koalas = [
+  {
+    id: 1,
+    name: 'testName',
+    age: 'testage',
+    gender: 'testGender',
+    readyForTransfer: 'true',
+    notes: 'testNotes2',
+  },
+  {
+    id: 2,
+    name: 'testName2',
+    age: 'testAge2',
+    gender: 'testGender2',
+    readyForTransfer: 'false',
+    notes: 'testNotes2',
+  }
+]
+
+// -- GET -----------------------------------------
 
 function getKoalas(){
   console.log( 'in getKoalas' );
   // ajax call to server to get koalas
-  
+  $.ajax({
+    type: 'GET',
+    url: '/koalas'
+  }).then (function(res){
+    console.log('getKoalas GET successful!');
+    renderKoalas(res);
+  }).catch (function(err){
+    console.log('getKoalas GET Error:', err);
+  });
 } // end getKoalas
 
-function saveKoala( newKoala ){
-  console.log( 'in saveKoala', newKoala );
-  // ajax call to server to get koalas
- 
+// -- POST -----------------------------------------
+
+function submitKoala() {
+  console.log( 'in addButton on click' );
+
+  // declare koalaToSend from user
+  let koalaToSend = {
+    name: $('#nameIn').val(),
+    age: $('ageIn').val(),
+    gender: $('#genderIn').val(),
+    readyForTransfer: $('#readyForTransferIn').val(),
+    notes: $('#notesIn').val(),
+  }
+
+  // Post newKoala to Server
+  $.ajax({
+    type: 'POST',
+    url: '/koalas',
+    data: koalaToSend,
+  }).then(function(res){
+    console.log('response from server!', res);
+    getKoalas();
+  }).catch(function(error){
+    console.log('error in post', error);
+    alert('unable to add koala at this time.');
+  });
+} // end submitKoala
+
+// -- PUT ------------------------------------------
+
+
+// -- HELPER FUNCTIONS -----------------------------
+
+function renderKoalas(koalas){
+  $('#viewKoalas').empty();
+  for (let koala of koalas){
+    $('#viewKoalas').append(`
+    <tr data-id="${koala.id}">
+      <td>${koala.name}</td>
+      <td>${koala.age}</td>
+      <td>${koala.gender}</td>
+      <td>${koala.readyForTransfer}</td>
+      <td>${koala.notes}</td>
+      <td>
+        <button id="btn-mark-ready">Ready for Transfer</button>
+      </td>
+    </tr>
+    `)
+  }
 }
+
