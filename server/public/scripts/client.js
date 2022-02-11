@@ -6,6 +6,7 @@ $( document ).ready( function(){
   console.log( 'JQ' );
   // Establish Click Listeners
   $( '#addButton' ).on('click', submitKoala);
+  $('#viewKoalas').on('click','#btn-mark-ready',transferKoala);
   // load existing koalas on page load
   getKoalas();
 }); // end doc ready
@@ -79,7 +80,20 @@ function submitKoala() {
 } // end submitKoala
 
 // -- PUT ------------------------------------------
+function transferKoala(){
+console.log('does this work?');
+let koalaId = $(this).closest('tr').data().id;
+$.ajax({
+  method: 'PUT',
+  url: `koalas/${koalaId}`
+}).then(function(res){
+  console.log('RESPONSE FOR PUT, TRANSFER',res);
+  getKoalas();
+}).catch(function(err){
+  console.log('rut ro scoob', err);
+})
 
+}
 
 // -- HELPER FUNCTIONS -----------------------------
 
@@ -93,11 +107,16 @@ function renderKoalas(koalas){
       <td>${koala.gender}</td>
       <td>${koala.readyForTransfer}</td>
       <td>${koala.notes}</td>
-      <td>
-        <button id="btn-mark-ready">Ready for Transfer</button>
+      <td id="${koala.id}delete">
+      <button id="btn-mark-ready">Ready for Transfer</button>
       </td>
     </tr>
     `)
+  for ( let koala of koalas){
+    if (koala.readyForTransfer === false){
+      $(`#${koala.id}delete`).empty();
+    }
+  }
   }
 }
 
