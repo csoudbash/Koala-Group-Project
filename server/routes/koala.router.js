@@ -1,3 +1,4 @@
+const { Router } = require('express');
 const express = require('express');
 const koalaRouter = express.Router();
 
@@ -35,7 +36,21 @@ koalaRouter.post('/', (req,res) => {
 })
 
 // PUT
-
+koalaRouter.put('/:id', (req, res) => {
+    let reqId = req.params.id;
+    console.log('updating id', reqId);
+    
+    let queryText = `UPDATE "koalas" SET "readyForTransfer" = TRUE WHERE "id" = $1`;
+    pool.query(queryText, [reqId])
+    .then((result) => {
+        console.log('koala status updated');
+        res.sendStatus(200);
+    }) 
+    .catch((error) => {
+        console.log('catch error dude', queryText, error);
+        res.sendStatus(500);
+    })
+})
 
 // DELETE
 
