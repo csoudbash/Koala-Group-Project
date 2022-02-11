@@ -40,7 +40,7 @@ koalaRouter.put('/:id', (req, res) => {
     let reqId = req.params.id;
     console.log('updating id', reqId);
     
-    let queryText = `UPDATE "koalas" SET "readyForTransfer" = TRUE WHERE "id" = $1`;
+    let queryText = `UPDATE "koalas" SET "readyForTransfer" = TRUE WHERE "id" = $1;`;
     pool.query(queryText, [reqId])
     .then((result) => {
         console.log('koala status updated');

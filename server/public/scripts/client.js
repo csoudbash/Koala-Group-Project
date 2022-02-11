@@ -59,7 +59,7 @@ function submitKoala() {
   // declare koalaToSend from user
   let koalaToSend = {
     name: $('#nameIn').val(),
-    age: $('ageIn').val(),
+    age: $('#ageIn').val(),
     gender: $('#genderIn').val(),
     readyForTransfer: $('#readyForTransferIn').val(),
     notes: $('#notesIn').val(),
@@ -113,7 +113,7 @@ function renderKoalas(koalas){
     </tr>
     `)
   for ( let koala of koalas){
-    if (koala.readyForTransfer === false){
+    if (koala.readyForTransfer === true){
       $(`#${koala.id}delete`).empty();
     }
   }
