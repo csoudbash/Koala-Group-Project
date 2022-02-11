@@ -70,7 +70,8 @@ function submitKoala() {
     url: '/koalas',
     data: koalaToSend,
   }).then(function(res){
-    console.log('response from server!', response);
+    console.log('response from server!', res);
+    getKoalas();
   }).catch(function(error){
     console.log('error in post', error);
     alert('unable to add koala at this time.');
@@ -83,6 +84,7 @@ function submitKoala() {
 // -- HELPER FUNCTIONS -----------------------------
 
 function renderKoalas(koalas){
+  $('#viewKoalas').empty();
   for (let koala of koalas){
     $('#viewKoalas').append(`
     <tr data-id="${koala.id}">
